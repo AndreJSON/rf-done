@@ -1,0 +1,175 @@
+.v-application .no-padding-top {
+  padding-top: 0;
+}
+.v-application .no-padding-bottom {
+  padding-bottom: 0;
+}
+.v-application .no-padding-left {
+  padding-left: 0;
+}
+.v-application .no-padding-right {
+  padding-right: 0;
+}
+.v-application .no-vertical-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.v-application .no-padding-sides {
+  padding-left: 0;
+  padding-right: 0;
+}
+.v-application .no-padding {
+  padding: 0;
+}
+
+.v-application .tiny-padding-top {
+  padding-top: 3px;
+}
+.v-application .tiny-padding-bottom {
+  padding-bottom: 3px;
+}
+.v-application .tiny-padding-left {
+  padding-left: 3px;
+}
+.v-application .tiny-padding-right {
+  padding-right: 3px;
+}
+.v-application .tiny-vertical-padding {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.v-application .tiny-padding-sides {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.v-application .tiny-padding {
+  padding: 3px;
+}
+
+.v-application .small-padding-top {
+  padding-top: 6px;
+}
+.v-application .small-padding-bottom {
+  padding-bottom: 6px;
+}
+.v-application .small-padding-left {
+  padding-left: 6px;
+}
+.v-application .small-padding-right {
+  padding-right: 6px;
+}
+.v-application .small-vertical-padding {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.v-application .small-padding-sides {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.v-application .small-padding {
+  padding: 6px;
+}
+
+.v-application .medium-padding-top {
+  padding-top: 12px;
+}
+.v-application .medium-padding-bottom {
+  padding-bottom: 12px;
+}
+.v-application .medium-padding-left {
+  padding-left: 12px;
+}
+.v-application .medium-padding-right {
+  padding-right: 12px;
+}
+.v-application .medium-vertical-padding {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.v-application .medium-padding-sides {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.v-application .medium-padding {
+  padding: 12px;
+}
+
+.v-application .large-padding-top {
+  padding-top: 24px;
+}
+.v-application .large-padding-bottom {
+  padding-bottom: 24px;
+}
+.v-application .large-padding-left {
+  padding-left: 24px;
+}
+.v-application .large-padding-right {
+  padding-right: 24px;
+}
+.v-application .large-vertical-padding {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.v-application .large-padding-sides {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.v-application .large-padding {
+  padding: 24px;
+}
+
+.v-application .no-margin-bottom {
+  margin-bottom: 0;
+}
+.v-application .tiny-margin-top {
+  margin-top: 3px;
+}
+.v-application .tiny-margin-sides {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.v-application .tiny-margin {
+  margin: 3px;
+}
+
+/* v-toolbar */
+.v-toolbar__content {
+  padding-left: 4px;
+}
+
+/* v-dialog */
+.v-application .v-dialog:not(.v-dialog--fullscreen) {
+  max-height: 95%;
+  max-width: 95%;
+}
+.v-application .v-dialog.full-height {
+  min-height: 95%;
+}
+
+/* v-card */
+.v-application .v-dialog .v-card .v-card__title {
+  padding: 12px;
+  font-size: 1.375rem;
+}
+.v-application .v-dialog .v-card .v-card__text {
+  padding: 0 12px;
+  margin-top: 3px;
+  font-size: 1rem;
+}
+.v-application .v-dialog .v-card .v-card__actions {
+  padding-top: 3px;
+  padding-right: 12px;
+}
+
+/* v-btn */
+.v-application .v-btn.v-btn.senior {
+  height: 42px;
+  font-size: 1rem;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* v-list */
+.v-application .v-list-item__title {
+  font-size: 1.25rem;
+}
