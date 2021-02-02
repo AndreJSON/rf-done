@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "backend": "nodemon backend/server.js"
+    "backend": "nodemon backend/server.js",
+    "production": "node backend/server.js"
   },
   "dependencies": {
     "axios": "0.21.1",

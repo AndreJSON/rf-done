@@ -96,7 +96,7 @@
       <v-row v-if="imageUri">
         <v-col cols="12" class="no-vertical-padding">
           <a :href="imageUri" target="_blank" rel="noopener noreferrer">
-            <v-img contain :src="imageUri" />
+            <img contain :src="imageUri" style="width: 100%" />
           </a>
         </v-col>
       </v-row>
@@ -169,9 +169,13 @@ export default Vue.extend({
   },
   watch: {
     "$route.query": {
-      handler(query, oldQuery) {
-        if (query !== undefined && query.recipe !== undefined) {
-          this.initDialog(query.recipe);
+      handler(newQuery, oldQuery) {
+        let newRecipeId = newQuery !== undefined ? newQuery.recipe : undefined;
+        let oldRecipeId = oldQuery !== undefined ? oldQuery.recipe : undefined;
+        if (newRecipeId === undefined) {
+          this.recipe = undefined;
+        } else if (newRecipeId !== oldRecipeId) {
+          this.initDialog(newRecipeId);
         }
       },
       immediate: true
