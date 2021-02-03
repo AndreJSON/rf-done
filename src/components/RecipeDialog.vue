@@ -348,12 +348,10 @@ export default Vue.extend({
       const carretPos = this.recipeTextarea.selectionStart;
       const textBefore = this.text.substr(0, carretPos);
       const textAfter = this.text.substr(carretPos);
+      console.log(carretPos, this.text.length);
       this.text = textBefore + "\t" + textAfter;
-
-      this.$nextTick().then(() => {
-        this.recipeTextarea.selectionStart = carretPos + 1;
-        this.recipeTextarea.selectionEnd = carretPos + 1;
-      });
+      this.recipeTextarea.selectionStart = carretPos + 1;
+      this.recipeTextarea.selectionEnd = carretPos + 1;
     }
   },
   data: (): {
