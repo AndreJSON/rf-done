@@ -207,7 +207,7 @@ export default Vue.extend({
       set(text: string) {
         this.unsavedChanges = true;
         if (text.includes("_")) {
-          this.handleTabInRecipeText(1)
+          this.handleTabInRecipeText(1);
         } else {
           this.recipe!.text = text;
         }
@@ -350,7 +350,7 @@ export default Vue.extend({
         recipeTextarea.selectionStart = carretPos + 1;
         recipeTextarea.selectionEnd = carretPos + 1;
       });
-    },
+    }
   },
   data: (): {
     unsavedChanges: boolean;

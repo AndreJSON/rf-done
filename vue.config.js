@@ -8,7 +8,7 @@ module.exports = {
       },
       "/images": {
         target: "http://localhost:8080"
-      },
+      }
     },
     watchOptions: {
       ignored: [/node_modules/, /public/, /backend/]
