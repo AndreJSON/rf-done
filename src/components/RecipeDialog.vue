@@ -206,12 +206,7 @@ export default Vue.extend({
       },
       set(text: string) {
         this.unsavedChanges = true;
-        this.recipe!.text = text.replaceAll("_", "\t");
-        const carretPos = this.recipeTextarea.selectionStart;
-        this.$nextTick(() => {
-          this.recipeTextarea.selectionStart = carretPos;
-          this.recipeTextarea.selectionEnd = carretPos;
-        });
+        this.recipe!.text = text;
       }
     },
     imageUri: {
@@ -237,9 +232,6 @@ export default Vue.extend({
         this.unsavedChanges = true;
         this.recipe!.tags = tags;
       }
-    },
-    recipeTextarea() {
-      return (this.$refs.recipeText as Vue).$refs.input as any;
     }
   },
   methods: {
@@ -345,13 +337,15 @@ export default Vue.extend({
       this.recipe = new Recipe({ _id: id });
     },
     handleTabInRecipeText() {
-      const carretPos = this.recipeTextarea.selectionStart;
+      const recipeTextarea = (this.$refs.recipeText as Vue).$refs.input as any;
+      const carretPos = recipeTextarea.selectionStart;
       const textBefore = this.text.substr(0, carretPos);
       const textAfter = this.text.substr(carretPos);
-      console.log(carretPos, this.text.length);
       this.text = textBefore + "\t" + textAfter;
-      this.recipeTextarea.selectionStart = carretPos + 1;
-      this.recipeTextarea.selectionEnd = carretPos + 1;
+      this.$nextTick(() => {
+        recipeTextarea.selectionStart = carretPos + 1;
+        recipeTextarea.selectionEnd = carretPos + 1;
+      });
     }
   },
   data: (): {
