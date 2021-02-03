@@ -31,10 +31,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Recipe } from "@/scripts/types.ts";
-import Toolbar from "@/components/shared/Toolbar.vue";
-import Spinner from "@/components/shared/Spinner.vue";
-import Alert from "@/components/shared/Alert.vue";
+import Toolbar from "@/components/Toolbar.vue";
+import Spinner from "@/components/Spinner.vue";
+import Alert from "@/components/Alert.vue";
 
 export default Vue.extend({
   components: {

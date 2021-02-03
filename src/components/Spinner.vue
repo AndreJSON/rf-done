@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-progress-circular
-      color="purple lighten-2"
+      color="indigo lighten-2"
       :size="size"
       :width="size / 12"
       indeterminate

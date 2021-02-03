@@ -33,7 +33,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Recipe } from "@/scripts/types.ts";
-import RecipeDialog from "@/components/recipe/RecipeDialog.vue";
+import RecipeDialog from "@/components/RecipeDialog.vue";
 
 export default Vue.extend({
   components: {

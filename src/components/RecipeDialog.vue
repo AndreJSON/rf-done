@@ -161,7 +161,7 @@ import Vue from "vue";
 import axios from "axios";
 import { Recipe } from "@/scripts/types.ts";
 import { tokenizeText } from "@/scripts/misc.ts";
-import Confirmation from "@/components/shared/Confirmation.vue";
+import Confirmation from "@/components/Confirmation.vue";
 
 export default Vue.extend({
   components: {
