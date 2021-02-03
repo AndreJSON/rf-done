@@ -52,7 +52,7 @@
             dense
             class="recipe-text"
             ref="recipeText"
-            @keydown.tab.prevent="handleTabInRecipeText"
+            @keydown.tab.prevent="handleTabInRecipeText(0)"
           />
         </v-col>
         <v-col v-if="!imageUri" cols="12" class="no-padding-top">
@@ -206,7 +206,11 @@ export default Vue.extend({
       },
       set(text: string) {
         this.unsavedChanges = true;
-        this.recipe!.text = text;
+        if (text.includes("_")) {
+          this.handleTabInRecipeText(1)
+        } else {
+          this.recipe!.text = text;
+        }
       }
     },
     imageUri: {
@@ -336,9 +340,9 @@ export default Vue.extend({
       }
       this.recipe = new Recipe({ _id: id });
     },
-    handleTabInRecipeText() {
+    handleTabInRecipeText(carretOffset: number) {
       const recipeTextarea = (this.$refs.recipeText as Vue).$refs.input as any;
-      const carretPos = recipeTextarea.selectionStart;
+      const carretPos = recipeTextarea.selectionStart - carretOffset;
       const textBefore = this.text.substr(0, carretPos);
       const textAfter = this.text.substr(carretPos);
       this.text = textBefore + "\t" + textAfter;
@@ -346,7 +350,7 @@ export default Vue.extend({
         recipeTextarea.selectionStart = carretPos + 1;
         recipeTextarea.selectionEnd = carretPos + 1;
       });
-    }
+    },
   },
   data: (): {
     unsavedChanges: boolean;
