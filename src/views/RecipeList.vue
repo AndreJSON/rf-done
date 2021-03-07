@@ -77,16 +77,22 @@ export default Vue.extend({
       if (!recipe.visible) {
         return false;
       }
-      if (this.filter === "") {
+      if (!this.filter) {
         return true;
       }
       let stringsToSearch = [recipe.title, ...recipe.tags];
       for (let s of stringsToSearch) {
-        if (s.toUpperCase().includes(this.filter.toUpperCase())) {
+        if (this.normalized(s).includes(this.normalized(this.filter))) {
           return true;
         }
       }
       return false;
+    },
+    normalized(str: string) {
+      return str
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
     },
     recipeClicked(recipe: Recipe) {
       this.$router.push({ path: "/", query: { recipe: recipe._id } });

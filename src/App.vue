@@ -5,7 +5,7 @@
       :filter="filter"
       @filterChanged="filterChanged"
     />
-    <v-main>
+    <v-content>
       <Alert
         v-if="globalError.show"
         :message="globalError.message"
@@ -15,7 +15,7 @@
         <router-view v-if="!loading" />
         <Spinner v-else :size="160" id="auth-progress" />
       </v-container>
-    </v-main>
+    </v-content>
   </v-app>
 </template>
 
