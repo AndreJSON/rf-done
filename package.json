@@ -10,7 +10,7 @@
     "production": "node backend/server.js"
   },
   "dependencies": {
-    "axios": "0.21.1",
+    "axios": "1.6.0",
     "core-js": "2.6.11",
     "express": "4.17.1",
     "mongoose": "5.11.14",
