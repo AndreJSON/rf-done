@@ -1,1 +1,1 @@
-mongod --port 27018
+sudo systemctl start mongod
