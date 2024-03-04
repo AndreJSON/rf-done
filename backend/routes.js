@@ -3,7 +3,7 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost:27018/rfd', { useNewUrlParser: true });
+mongoose.connect('mongodb://127.0.0.1/rfd', { useNewUrlParser: true, useUnifiedTopology: true });
 const Recipe = require('./recipe-model');
 
 module.exports = (app) => {
