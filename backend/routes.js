@@ -3,10 +3,11 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://127.0.0.1/rfd', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1/rfd', { useNewUrlParser: true, serverSelectionTimeoutMS: 2000 /*useUnifiedTopology: true*/ });
 const Recipe = require('./recipe-model');
 
 module.exports = (app) => {
+	
 	app.get('/api/recipes', (req, res) => {
 		Recipe.find({}, (err, docs) => {
 			if (err) {
@@ -28,11 +29,6 @@ module.exports = (app) => {
 
 	app.get('/images/:imageName', (req, res) => {
 		res.sendFile(path.join(__dirname, '../public/images/' + req.params.imageName));
-	});
-
-	//Catch all non-api calls and let vue-router handle it.
-	app.get('/*', (req, res) => {
-		res.sendFile(path.join(__dirname, '../dist/index.html'));
 	});
 
 	app.post('/api/recipe', (req, res) => {
@@ -77,5 +73,10 @@ module.exports = (app) => {
 	app.post('/api/images', multer({ storage: storage }).single('image'), (req, res) => {
 		res.statusCode = 200;
 		res.end();
+	});
+
+	//Catch all non-api calls and let vue-router handle it.
+	app.get('/*', (req, res) => {
+		res.sendFile(path.join(__dirname, '../dist/index.html'));
 	});
 }

@@ -1,25 +1,52 @@
-import "core-js";
-import Vue from "vue";
-import App from "@/App.vue";
-import router from "@/scripts/router.ts";
-import store from "@/scripts/store.ts";
-import vuetify from "@/plugins/vuetify.ts";
-import "overlayscrollbars/css/OverlayScrollbars.css";
-import OverlayScrollbars from "overlayscrollbars";
-import { OverlayScrollbarsPlugin } from "overlayscrollbars-vue";
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 
-Vue.config.productionTip = false;
-Vue.use(OverlayScrollbarsPlugin);
+import App from "./App.vue";
+import router from "./router";
 
-new Vue({
-  store,
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount("#app");
+import "vuetify/styles";
+import { createVuetify, type ThemeDefinition } from "vuetify";
+import { aliases, mdi } from "vuetify/iconsets/mdi";
+import "@mdi/font/css/materialdesignicons.css";
 
-OverlayScrollbars(document.body, {
-  nativeScrollbarsOverlaid: {
-    initialize: false
-  }
+const myCustomLightTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    background: "#FFFFFF",
+    surface: "#FFFFFF",
+    primary: "#81C784",
+    "primary-darken-1": "#3700B3",
+    secondary: "#AB47BC",
+    "secondary-darken-1": "#018786",
+    error: "#B00020",
+    info: "#2196F3",
+    success: "#4CAF50",
+    warning: "#FB8C00",
+  },
+};
+
+const vuetify = createVuetify({
+  theme: {
+    defaultTheme: "myCustomLightTheme",
+    themes: {
+      myCustomLightTheme,
+    },
+  },
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi,
+    },
+  },
 });
+
+import "./assets/style.css";
+
+const app = createApp(App);
+
+app.use(createPinia());
+app.use(router);
+app.use(vuetify);
+
+app.mount("#app");
