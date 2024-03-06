@@ -7,8 +7,10 @@ export const useRecipeStore = defineStore({
   id: "recipe",
   state: (): {
     recipes: Recipe[];
+    filter: string;
   } => ({
     recipes: [],
+    filter: "",
   }),
   actions: {
     fetchRecipes() {

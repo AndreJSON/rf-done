@@ -1,34 +1,64 @@
 <template>
-  <div>
-    <v-row>
-      <v-col cols="12" v-for="recipe of recipeStore.recipes" :key="recipe.id">
-        {{ recipe }}
-      </v-col>
-    </v-row>
-  </div>
+  <v-list lines="one">
+    <v-list-item
+      v-for="recipe of filteredRecipes"
+      :key="recipe.id"
+      :title="recipe.title"
+      :subtitle="recipe.tags.join(', ')"
+      @click="editRecipe(recipe)"
+    />
+  </v-list>
+  <RecipeDialog
+    v-if="selectedRecipe"
+    :recipe="selectedRecipe"
+    @close="closeDialog"
+  />
 </template>
+
+<style scoped>
+.v-list :deep(div) {
+  user-select: none !important;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useUiStore } from "@/stores/uiStore";
 import { useRecipeStore } from "@/stores/recipeStore";
+import type { Recipe } from "@/scripts/types";
+import RecipeDialog from "@/components/RecipeDialog.vue";
 
 export default defineComponent({
-  watch: {
-    queryStringId: {
-      handler() {
-        console.log(this.queryStringId);
-      },
-      immediate: true,
-    },
+  components: {
+    RecipeDialog,
   },
   computed: {
-    queryStringId(): number | undefined {
-      let id: number | undefined = Number(this.$route.query.id);
-      if (isNaN(id) || !id) {
-        id = undefined;
+    queryStringId(): string | undefined {
+      const id = this.$route.query.id;
+      if (!id) {
+        return undefined;
       }
-      return id;
+      return String(id);
+    },
+    selectedRecipe(): Recipe | undefined {
+      return this.recipeStore.recipes.find((r) => r.id === this.queryStringId);
+    },
+    filteredRecipes(): Recipe[] {
+      const filter = this.recipeStore.filter.toLocaleUpperCase();
+      return this.recipeStore.recipes.filter(
+        (r) =>
+          !filter ||
+          r.title.toLocaleUpperCase().includes(filter) ||
+          r.tags.some((t) => t.includes(filter))
+      );
+    },
+  },
+  methods: {
+    editRecipe(recipe: Recipe) {
+      this.$router.push({ path: "/", query: { id: recipe.id } });
+    },
+    closeDialog() {
+      this.$router.push("/");
     },
   },
   mounted() {

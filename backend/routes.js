@@ -17,6 +17,7 @@ module.exports = (app) => {
 				res.end();
 			} else {
 				docs.map(d => d.id = d._id);
+				docs.map(d => d.tags = d.tags.map(t => t.toLocaleUpperCase()));
 				res.json({ recipes: docs });
 				res.end();
 			}
