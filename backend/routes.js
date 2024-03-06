@@ -16,6 +16,7 @@ module.exports = (app) => {
 				res.statusMessage = "Failed to get recipes.";
 				res.end();
 			} else {
+				docs.map(d => d.id = d._id);
 				res.json({ recipes: docs });
 				res.end();
 			}
@@ -34,7 +35,7 @@ module.exports = (app) => {
 	app.post('/api/recipe', (req, res) => {
 		const recipe = req.body;
 		const updatedRecipe = {
-			_id: recipe._id,
+			_id: recipe.id,
 			title: recipe.title,
 			text: recipe.text,
 			tags: recipe.tags,
@@ -43,7 +44,7 @@ module.exports = (app) => {
 			visible: recipe.visible === undefined ? true : recipe.visible,
 			imageName: recipe.imageName
 		};
-		Recipe.findOneAndUpdate({ _id: req.body._id }, updatedRecipe, { upsert: true, new: true }, (err) => {
+		Recipe.findOneAndUpdate({ _id: updatedRecipe.id }, updatedRecipe, { upsert: true, new: true }, (err) => {
 			if (err) {
 				console.log(err);
 				res.statusCode = 500;

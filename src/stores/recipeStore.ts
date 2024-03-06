@@ -1,25 +1,21 @@
 import axios from "axios";
 import { handleApiError } from "@/scripts/utils";
 import { defineStore } from "pinia";
+import type { Recipe } from "@/scripts/types";
 
 export const useRecipeStore = defineStore({
   id: "recipe",
   state: (): {
-    recipes: any[];
+    recipes: Recipe[];
   } => ({
     recipes: [],
   }),
   actions: {
     fetchRecipes() {
       axios
-        .get("/api/recipes")
+        .get<{recipes: Recipe[]}>("/api/recipes")
         .then(res => {
-          console.log(res);
-          /*const recipes: Recipe[] = [];
-          for (const recipe of res.data.recipes) {
-            recipes.push(new Recipe(recipe));
-          }
-          context.commit("setRecipes", recipes);*/
+          this.recipes = res.data.recipes;
         })
         .catch(error => {
           handleApiError(error);

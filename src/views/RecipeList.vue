@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row>
-      <v-col>
-        
+      <v-col cols="12" v-for="recipe of recipeStore.recipes" :key="recipe.id">
+        {{ recipe }}
       </v-col>
     </v-row>
   </div>
@@ -36,11 +36,6 @@ export default defineComponent({
   },
   setup() {
     return { uiStore: useUiStore(), recipeStore: useRecipeStore() };
-  },
-  data: (): {
-    loading: boolean;
-  } => ({
-    loading: false,
-  }),
+  }
 });
 </script>
