@@ -20,7 +20,7 @@ export default defineComponent({
         console.log(this.queryStringId);
       },
       immediate: true,
-    }
+    },
   },
   computed: {
     queryStringId(): number | undefined {
@@ -29,13 +29,13 @@ export default defineComponent({
         id = undefined;
       }
       return id;
-    }
+    },
   },
   mounted() {
     this.recipeStore.fetchRecipes();
   },
   setup() {
     return { uiStore: useUiStore(), recipeStore: useRecipeStore() };
-  }
+  },
 });
 </script>

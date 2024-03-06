@@ -13,11 +13,11 @@ export const useRecipeStore = defineStore({
   actions: {
     fetchRecipes() {
       axios
-        .get<{recipes: Recipe[]}>("/api/recipes")
-        .then(res => {
+        .get<{ recipes: Recipe[] }>("/api/recipes")
+        .then((res) => {
           this.recipes = res.data.recipes;
         })
-        .catch(error => {
+        .catch((error) => {
           handleApiError(error);
         });
     },

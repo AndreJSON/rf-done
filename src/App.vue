@@ -17,7 +17,7 @@ import { useUiStore } from "@/stores/uiStore";
 
 export default defineComponent({
   components: {
-    Navigation
+    Navigation,
   },
   methods: {
     saveWindowHeight() {
@@ -26,7 +26,10 @@ export default defineComponent({
   },
   mounted() {
     this.saveWindowHeight();
-    (window as any).visualViewport.addEventListener("resize", this.saveWindowHeight);
+    (window as any).visualViewport.addEventListener(
+      "resize",
+      this.saveWindowHeight
+    );
   },
   setup() {
     return { recipeStore: useRecipeStore(), uiStore: useUiStore() };
