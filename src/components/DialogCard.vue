@@ -8,6 +8,18 @@
               {{ title }}
             </v-col>
             <v-spacer />
+            <v-col
+              v-if="showEditButton"
+              cols="auto"
+              class="no-vertical-padding no-padding-right"
+            >
+              <v-btn
+                size="large"
+                variant="plain"
+                icon="mdi-pencil"
+                @click="edit"
+              />
+            </v-col>
             <v-col cols="auto" class="no-vertical-padding">
               <v-btn
                 size="large"
@@ -20,8 +32,7 @@
         </v-sheet>
       </v-card-title>
       <v-card-text>
-        <Progress v-if="loading" />
-        <slot v-else name="body" />
+        <slot v-if="!loading" name="body" />
       </v-card-text>
       <v-card-actions>
         <slot name="actions" />
@@ -47,21 +58,21 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Progress from "@/components/Progress.vue";
 
 export default defineComponent({
-  components: {
-    Progress,
-  },
   props: {
     dialog: Boolean,
     title: String,
     loading: Boolean,
     width: Number,
+    showEditButton: Boolean,
   },
   methods: {
     close() {
       this.$emit("closeDialogCard");
+    },
+    edit() {
+      this.$emit("edit");
     },
   },
 });

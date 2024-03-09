@@ -1,0 +1,10 @@
+.input-wrapper:deep(.v-messages),
+.input-wrapper:deep(.v-input__details) {
+  min-height: 0 !important;
+  padding-top: 0 !important;
+}
+
+.input-wrapper:deep(.v-messages__message) {
+  padding-top: 3px;
+  padding-bottom: 1px;
+}
