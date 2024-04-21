@@ -13,7 +13,9 @@
           <v-col cols="12" v-if="editMode">
             <TextSingle v-model="recipe.title" label="Namn" />
           </v-col>
-          <!--Add tags-->
+          <v-col cols="12" v-if="editMode">
+            <TextSingle v-model="recipe.tags" label="Taggar" />
+          </v-col>
           <v-col cols="12">
             <v-img
               v-if="recipe.imageName"
@@ -50,6 +52,9 @@ import DialogCard from "@/components/DialogCard.vue";
 import TextSingle from "@/components/TextSingle.vue";
 import TextMulti from "@/components/TextMulti.vue";
 import type { Recipe } from "@/scripts/types";
+import axios from "axios";
+import { useRecipeStore } from "@/stores/recipeStore";
+import { handleApiError } from "@/scripts/utils";
 
 export default defineComponent({
   components: {
@@ -60,6 +65,16 @@ export default defineComponent({
   props: {
     recipe: Object as () => Recipe,
   },
+  watch: {
+    recipe: {
+      handler() {
+        if (this.recipe && this.recipe.id === 0) {
+          this.editMode = true;
+        }
+      },
+      immediate: true,
+    },
+  },
   computed: {
     title(): string | undefined {
       return this.recipe?.title;
@@ -68,11 +83,24 @@ export default defineComponent({
   methods: {
     save() {
       this.saveInProgress = true;
-      this.editMode = false;
+      axios
+        .post("/api/recipe", this.recipe)
+        .then(() => {
+          this.recipeStore.fetchRecipes();
+          this.saveInProgress = false;
+          this.editMode = false;
+          this.close();
+        })
+        .catch((error) => {
+          handleApiError(error);
+        });
     },
     close() {
       this.$emit("close");
     },
+  },
+  setup() {
+    return { recipeStore: useRecipeStore() };
   },
   data: (): {
     valid: boolean;

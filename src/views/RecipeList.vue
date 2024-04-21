@@ -4,7 +4,7 @@
       v-for="recipe of filteredRecipes"
       :key="recipe.id"
       :title="recipe.title"
-      :subtitle="recipe.tags.join(', ')"
+      :subtitle="recipe.tags"
       @click="editRecipe(recipe)"
     />
   </v-list>
@@ -41,7 +41,9 @@ export default defineComponent({
       return String(id);
     },
     selectedRecipe(): Recipe | undefined {
-      return this.recipeStore.recipes.find((r) => r.id === this.queryStringId);
+      return this.recipeStore.recipes.find(
+        (r) => r.id.toString() === this.queryStringId
+      );
     },
     filteredRecipes(): Recipe[] {
       const filter = this.recipeStore.filter.toLocaleUpperCase();
@@ -49,7 +51,7 @@ export default defineComponent({
         (r) =>
           !filter ||
           r.title.toLocaleUpperCase().includes(filter) ||
-          r.tags.some((t) => t.includes(filter))
+          r.tags.includes(filter)
       );
     },
   },

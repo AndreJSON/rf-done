@@ -2,7 +2,7 @@
   <v-app>
     <Navigation />
     <v-main>
-      <v-container>
+      <v-container class="no-padding-top">
         <RouterView />
       </v-container>
     </v-main>

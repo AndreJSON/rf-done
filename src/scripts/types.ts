@@ -1,10 +1,9 @@
 export type Recipe = {
-  id: string;
+  id: number;
   title: string;
   text: string;
-  tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
-  visible: boolean;
-  imageName: string;
+  tags: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  imageName: string | null;
 };

@@ -1,75 +1,97 @@
 const path = require('path');
 const multer = require('multer');
-const mongoose = require('mongoose');
-mongoose.set('useUnifiedTopology', true);
-mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://127.0.0.1/rfd', { useNewUrlParser: true, serverSelectionTimeoutMS: 2000 /*useUnifiedTopology: true*/ });
-const Recipe = require('./recipe-model');
+const config = require('config');
+const mariadb = require('mariadb');
+const pool = mariadb.createPool({
+     host: 'localhost',
+	 database: 'rfd', 
+     user:'root', 
+     password: config.get('dbpw'),
+     connectionLimit: 5
+});
+
+const pad = (num) => {
+	return num.toString().padStart(2, "0");
+}
+
+const now = () => {
+	const d = new Date();
+	return d.getFullYear().toString() + "-" +
+		pad(d.getMonth()) + "-" + 
+		pad(d.getDate()) + " " +
+		pad(d.getHours()) + ":" +
+		pad(d.getMinutes()) + ":" +
+		pad(d.getSeconds());
+}
 
 module.exports = (app) => {
-	
 	app.get('/api/recipes', (req, res) => {
-		Recipe.find({}, (err, docs) => {
-			if (err) {
-				console.log(err);
+		pool.getConnection()
+		.then(conn => {
+			conn.query("SELECT * from recipes")
+			.then((rows) => {
+				conn.end();
+				res.json({ recipes: rows });
+				res.end();
+			})
+			.catch(err => {
+				console.error(err); 
+				conn.end();
 				res.statusCode = 500;
 				res.statusMessage = "Failed to get recipes.";
 				res.end();
-			} else {
-				docs.map(d => d.id = d._id);
-				docs.map(d => d.tags = d.tags.map(t => t.toLocaleUpperCase()));
-				res.json({ recipes: docs });
-				res.end();
-			}
+			})
+		}).catch(err => {
+			console.error("Failed to connect to db");
+			res.statusCode = 500;
+			res.statusMessage = "Failed to connect to db.";
+			res.end();
 		});
-	});
-
-	app.get('/api/id', (req, res) => {
-		res.json({ id: mongoose.Types.ObjectId() });
-		res.end();
-	});
-
-	app.get('/images/:imageName', (req, res) => {
-		res.sendFile(path.join(__dirname, '../public/images/' + req.params.imageName));
 	});
 
 	app.post('/api/recipe', (req, res) => {
 		const recipe = req.body;
-		const updatedRecipe = {
-			_id: recipe.id,
-			title: recipe.title,
-			text: recipe.text,
-			tags: recipe.tags,
-			createdAt: recipe.createdAt || new Date(),
-			updatedAt: new Date(),
-			visible: recipe.visible === undefined ? true : recipe.visible,
-			imageName: recipe.imageName
-		};
-		Recipe.findOneAndUpdate({ _id: updatedRecipe.id }, updatedRecipe, { upsert: true, new: true }, (err) => {
-			if (err) {
-				console.log(err);
-				res.statusCode = 500;
-				res.statusMessage = "Failed to update recipe.";
-				res.end();
-			} else {
-				Recipe.find({}, (err, docs) => {
-					if (err) {
-						console.log(err);
-						res.statusCode = 500;
-						res.statusMessage = "Failed to get recipes.";
-						res.end();
-					} else {
-						res.json({ recipes: docs });
-						res.end();
-					}
-				});
-			}
+		recipe.title = recipe.title || "";
+		recipe.text = recipe.text || "";
+		recipe.tags = recipe.tags ? recipe.tags.toUpperCase() : "";
+		recipe.imageName = recipe.imageName || null;
+
+		pool.getConnection()
+		.then(conn => {
+			const query = recipe.id === 0?
+				conn.query(
+					"INSERT INTO recipes (title, text, tags, createdAt, updatedAt, imageName) value (?, ?, ?, ?, ?, ?)",
+					[recipe.title, recipe.text, recipe.tags, now(), now(), recipe.imageName])
+				: conn.query(
+					"UPDATE recipes set title = ?, text = ?, tags = ?, updatedAt = ?, imageName = ? where id = ?",
+					[recipe.title, recipe.text, recipe.tags, now(), recipe.imageName, recipe.id]);
+			query
+				.then(() => {
+					conn.end();
+					res.end();
+				})
+				.catch(err => {
+					console.error(err); 
+					conn.end();
+					res.statusCode = 500;
+					res.statusMessage = "Failed to insert/update recipe with id: " + recipe.id;
+					res.end();
+				})
+		}).catch(err => {
+			console.error("Failed to connect to db");
+			res.statusCode = 500;
+			res.statusMessage = "Failed to connect to db.";
+			res.end();
 		});
 	});
 
 	const storage = multer.diskStorage({
 		destination: "./public/images/",
 		filename: (req, file, cb) => cb(null, req.body.filename)
+	});
+
+	app.get('/images/:imageName', (req, res) => {
+		res.sendFile(path.join(__dirname, '../public/images/' + req.params.imageName));
 	});
 
 	app.post('/api/images', multer({ storage: storage }).single('image'), (req, res) => {

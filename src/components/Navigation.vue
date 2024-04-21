@@ -10,6 +10,7 @@
         icon="mdi-plus-thick"
         variant="plain"
         color="blue-grey-darken-4"
+        @click="createRecipe"
       />
     </v-col>
   </v-app-bar>
@@ -23,6 +24,20 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: {
     TextSingle,
+  },
+  methods: {
+    createRecipe() {
+      this.recipeStore.recipes.push({
+        id: 0,
+        title: "",
+        text: "",
+        tags: "",
+        createdAt: null,
+        updatedAt: null,
+        imageName: null,
+      });
+      this.$router.push({ path: "/", query: { id: 0 } });
+    },
   },
   setup() {
     return { recipeStore: useRecipeStore() };
