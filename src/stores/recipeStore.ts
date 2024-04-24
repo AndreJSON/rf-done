@@ -22,16 +22,6 @@ export const useRecipeStore = defineStore({
         .catch((error) => {
           handleApiError(error);
         });
-    },
-    /*storeImage: (context, formData: FormData) => {
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data"
-        }
-      };
-      return axios.post("/api/images", formData, config).catch(error => {
-        context.dispatch("handleApiError", error);
-      });
-    },*/
+    }
   },
 });

@@ -9,14 +9,13 @@
             </v-col>
             <v-spacer />
             <v-col
-              v-if="showEditButton"
               cols="auto"
               class="no-vertical-padding no-padding-right"
             >
               <v-btn
                 size="large"
                 variant="plain"
-                icon="mdi-pencil"
+                :icon="editMode ? 'mdi-pencil-off' : 'mdi-pencil'"
                 @click="edit"
               />
             </v-col>
@@ -65,7 +64,7 @@ export default defineComponent({
     title: String,
     loading: Boolean,
     width: Number,
-    showEditButton: Boolean,
+    editMode: Boolean,
   },
   methods: {
     close() {

@@ -3,6 +3,7 @@
     <v-textarea
       :model-value="modelValue"
       density="comfortable"
+      :variant="disabled ? 'filled' : 'outlined'"
       :readonly="disabled"
       spellcheck="false"
       autocomplete="false"

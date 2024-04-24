@@ -3,6 +3,7 @@
     <v-text-field
       :model-value="modelValue"
       :label="label"
+      :variant="disabled ? 'filled' : 'outlined'"
       density="comfortable"
       :readonly="disabled"
       :rules="rules"
