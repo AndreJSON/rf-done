@@ -3,7 +3,7 @@ const multer = require('multer');
 const config = require('config');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
-     host: 'localhost',
+     host: '127.0.0.1',
 	 database: 'rfd', 
      user:'root', 
      password: config.get('dbpw'),
